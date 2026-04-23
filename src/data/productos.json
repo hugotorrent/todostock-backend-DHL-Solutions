@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "nombre": "Desinfectante 750ml",
+    "precio": 1100,
+    "stock": 45,
+    "stockMinimo": 20,
+    "proveedorId": "prov-001",
+    "proveedorNombre": "Limpio S.A."
+  }
+]

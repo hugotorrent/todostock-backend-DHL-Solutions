@@ -1,0 +1,48 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    title Historial de Ventas - TodoStock S.A.
+    style.
+      body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
+      .contenedor { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 900px; margin: 0 auto; }
+      h1 { color: #333; text-align: center; }
+      .venta-card { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 5px; background: #fafafa; }
+      .venta-header { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
+      .total { font-size: 1.2em; font-weight: bold; color: #28a745; }
+      .btn-volver { display: inline-block; margin-bottom: 15px; text-decoration: none; color: #6c757d; font-weight: bold; }
+  
+  body
+    div.contenedor
+      a.btn-volver(href="/") ← Volver al Menú Principal
+      h1 Historial de Operaciones
+      
+      if ventas.length == 0
+        p No se han registrado ventas todavía.
+      else
+        each venta in ventas
+          div.venta-card
+            div.venta-header
+              span
+                strong Ticket: 
+                | #{venta.id}
+              span
+                strong Fecha: 
+                | #{new Date(venta.fecha).toLocaleDateString()}
+            p 
+              strong Cliente: 
+              | #{venta.razonSocial} (#{venta.clienteId})
+            
+            table
+              thead
+                tr
+                  th Producto ID
+                  th Cantidad
+                  th Precio Unit.
+              tbody
+                each item in venta.items
+                  tr
+                    td= item.productoId
+                    td= item.cantidad
+                    td $#{item.precioUnitario}
+            p.total Total: $#{venta.total}

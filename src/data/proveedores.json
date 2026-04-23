@@ -1,0 +1,16 @@
+[
+  {
+    "id": "prov-001",
+    "nombre": "Limpio S.A.",
+    "contacto": "Carlos Ruiz",
+    "telefono": "264-555-0192",
+    "activo": true
+  },
+  {
+    "id": "prov-002",
+    "nombre": "Distribuidora Sur",
+    "contacto": "Ana Torres",
+    "telefono": "264-555-0844",
+    "activo": true
+  }
+]
