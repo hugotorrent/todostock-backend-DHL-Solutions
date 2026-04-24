@@ -1,12 +1,12 @@
-# TodoStock S.A. — Sistema de Gestión Mayorista
+# TodoStock S.A. — Sistema de Gestión Mayorista PRUEBA
 
-**DSWB_2#_#################_1C26**  
+**DSWB*2#*#################\_1C26**  
 Tecnicatura Superior en Desarrollo de Software — IFTS N° 29  
 Materia: Desarrollo Web Backend | Primera Entrega 2026
 
 ---
 
-##  Descripción
+## Descripción
 
 API REST para la gestión interna de la **Distribuidora Mayorista TodoStock S.A.** (Caso 3). Permite administrar proveedores, productos, clientes y ventas con validaciones de integridad referencial entre módulos. Los datos se persisten en archivos JSON y las vistas se renderizan con el motor de plantillas Pug.
 
@@ -14,19 +14,19 @@ La arquitectura aplica **Programación Orientada a Objetos (POO)**: cada módulo
 
 ---
 
-##  Integrantes
+## Integrantes
 
-| Nombre | Rol |
-|--------|-----|
-| — Integrante 1 — | Tech Lead / Módulo Ventas |
-| — Integrante 2 — | Módulos Productos y Proveedores |
+| Nombre           | Rol                                |
+| ---------------- | ---------------------------------- |
+| — Integrante 1 — | Tech Lead / Módulo Ventas          |
+| — Integrante 2 — | Módulos Productos y Proveedores    |
 | — Integrante 3 — | Vistas Pug y pruebas ThunderClient |
-| — Integrante 4 — | Módulo Clientes y archivos JSON |
-| — Integrante 5 — | Documentación y video |
+| — Integrante 4 — | Módulo Clientes y archivos JSON    |
+| — Integrante 5 — | Documentación y video              |
 
 ---
 
-##  Tecnologías
+## Tecnologías
 
 - **Node.js** — entorno de ejecución
 - **Express.js** — framework web y enrutamiento
@@ -37,7 +37,7 @@ La arquitectura aplica **Programación Orientada a Objetos (POO)**: cada módulo
 
 ---
 
-##  Estructura del proyecto
+## Estructura del proyecto
 
 ```
 g/
@@ -77,7 +77,7 @@ g/
 
 ---
 
-##  Instalación y ejecución
+## Instalación y ejecución
 
 **Requisitos previos:** Node.js v18 o superior
 
@@ -100,62 +100,63 @@ El servidor queda disponible en: `http://localhost:3000`
 
 ---
 
-##  Vistas web (Pug)
+## Vistas web (Pug)
 
-| Ruta | Vista |
-|------|-------|
-| `GET /` | Menú principal |
+| Ruta               | Vista                  |
+| ------------------ | ---------------------- |
+| `GET /`            | Menú principal         |
 | `GET /proveedores` | Listado de proveedores |
-| `GET /productos` | Listado de productos |
-| `GET /clientes` | Listado de clientes |
-| `GET /ventas` | Listado de ventas |
+| `GET /productos`   | Listado de productos   |
+| `GET /clientes`    | Listado de clientes    |
+| `GET /ventas`      | Listado de ventas      |
 
 ---
 
-##  Endpoints de la API
+## Endpoints de la API
 
 ### Proveedores — `/api/proveedores`
 
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/api/proveedores` | Lista todos los proveedores |
-| GET | `/api/proveedores/:id` | Obtiene un proveedor por ID |
-| POST | `/api/proveedores` | Crea un nuevo proveedor |
-| PUT | `/api/proveedores/:id` | Actualiza un proveedor |
-| DELETE | `/api/proveedores/:id` | Elimina un proveedor |
+| Método | Endpoint               | Descripción                 |
+| ------ | ---------------------- | --------------------------- |
+| GET    | `/api/proveedores`     | Lista todos los proveedores |
+| GET    | `/api/proveedores/:id` | Obtiene un proveedor por ID |
+| POST   | `/api/proveedores`     | Crea un nuevo proveedor     |
+| PUT    | `/api/proveedores/:id` | Actualiza un proveedor      |
+| DELETE | `/api/proveedores/:id` | Elimina un proveedor        |
 
 ### Productos — `/api/productos`
 
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/api/productos` | Lista productos con datos del proveedor |
-| GET | `/api/productos/:id` | Obtiene un producto por ID |
-| POST | `/api/productos` | Crea un producto (requiere proveedorId válido) |
-| PUT | `/api/productos/:id` | Actualiza datos o reasigna proveedor |
-| DELETE | `/api/productos/:id` | Elimina el producto si no tiene ventas |
+| Método | Endpoint             | Descripción                                    |
+| ------ | -------------------- | ---------------------------------------------- |
+| GET    | `/api/productos`     | Lista productos con datos del proveedor        |
+| GET    | `/api/productos/:id` | Obtiene un producto por ID                     |
+| POST   | `/api/productos`     | Crea un producto (requiere proveedorId válido) |
+| PUT    | `/api/productos/:id` | Actualiza datos o reasigna proveedor           |
+| DELETE | `/api/productos/:id` | Elimina el producto si no tiene ventas         |
 
 ### Clientes — `/api/clientes`
 
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/api/clientes` | Lista todos los clientes |
-| GET | `/api/clientes/:id` | Obtiene un cliente por ID |
-| POST | `/api/clientes` | Registra un nuevo cliente |
-| PUT | `/api/clientes/:id` | Actualiza datos del cliente |
+| Método | Endpoint            | Descripción                           |
+| ------ | ------------------- | ------------------------------------- |
+| GET    | `/api/clientes`     | Lista todos los clientes              |
+| GET    | `/api/clientes/:id` | Obtiene un cliente por ID             |
+| POST   | `/api/clientes`     | Registra un nuevo cliente             |
+| PUT    | `/api/clientes/:id` | Actualiza datos del cliente           |
 | DELETE | `/api/clientes/:id` | Elimina el cliente si no tiene ventas |
 
 ### Ventas — `/api/ventas`
 
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/api/ventas` | Lista todas las ventas |
-| POST | `/api/ventas` | Registra una venta (valida cliente y stock) |
+| Método | Endpoint      | Descripción                                 |
+| ------ | ------------- | ------------------------------------------- |
+| GET    | `/api/ventas` | Lista todas las ventas                      |
+| POST   | `/api/ventas` | Registra una venta (valida cliente y stock) |
 
 ---
 
-##  Ejemplos de uso
+## Ejemplos de uso
 
 **Crear un proveedor:**
+
 ```json
 POST /api/proveedores
 {
@@ -167,6 +168,7 @@ POST /api/proveedores
 ```
 
 **Crear un producto:**
+
 ```json
 POST /api/productos
 {
@@ -180,6 +182,7 @@ POST /api/productos
 ```
 
 **Registrar una venta:**
+
 ```json
 POST /api/ventas
 {
@@ -192,6 +195,7 @@ POST /api/ventas
 ```
 
 **Crear un cliente:**
+
 ```json
 POST /api/clientes
 {
@@ -203,7 +207,7 @@ POST /api/clientes
 
 ---
 
-##  Validaciones implementadas
+## Validaciones implementadas
 
 Las validaciones viven dentro de cada clase modelo (método `validar()`), no en los controladores:
 
@@ -222,7 +226,7 @@ Validaciones de integridad referencial (en controladores, al cruzar módulos):
 
 ---
 
-##  Arquitectura POO
+## Arquitectura POO
 
 Cada módulo implementa una `class` con responsabilidades bien separadas:
 
@@ -243,14 +247,15 @@ Cada módulo implementa una `class` con responsabilidades bien separadas:
 
 **IDs autoincrementales por módulo:**
 
-| Módulo | Formato | Ejemplo |
-|--------|---------|---------|
+| Módulo    | Formato    | Ejemplo                |
+| --------- | ---------- | ---------------------- |
 | Proveedor | `prov-XXX` | `prov-001`, `prov-002` |
-| Producto | numérico | `1`, `2`, `3` |
-| Cliente | `cli-XXX` | `cli-001`, `cli-002` |
-| Venta | `vta-XXX` | `vta-001`, `vta-002` |
+| Producto  | numérico   | `1`, `2`, `3`          |
+| Cliente   | `cli-XXX`  | `cli-001`, `cli-002`   |
+| Venta     | `vta-XXX`  | `vta-001`, `vta-002`   |
 
 **Flujo de un POST:**
+
 ```
 Request → Controlador → Modelo.crear(datos)
                               ↓
@@ -269,9 +274,10 @@ Los controladores **no generan IDs, no arman objetos, no validan campos** — es
 
 ---
 
-##  Middleware
+## Middleware
 
 **Logger** — registra cada petición HTTP en consola:
+
 ```
 [24/4/2026, 08:44:15] Petición entrante: GET /
 [24/4/2026, 08:44:17] Petición entrante: GET /proveedores
@@ -283,5 +289,5 @@ Los controladores **no generan IDs, no arman objetos, no validan campos** — es
 
 ## 🔗 Links
 
--  Carpeta Drive: —   —
--  Video explicativo: —  —
+- Carpeta Drive: — —
+- Video explicativo: — —
