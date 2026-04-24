@@ -92,8 +92,7 @@ npm install
 # 3. Iniciar el servidor (modo desarrollo)
 npm run dev
 
-# 4. Iniciar el servidor (modo producción)
-npm start
+
 ```
 
 El servidor queda disponible en: `http://localhost:3000`
