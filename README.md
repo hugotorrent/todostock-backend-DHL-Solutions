@@ -10,17 +10,19 @@ Materia: Desarrollo Web Backend | Primera Entrega 2026
 
 API REST para la gestión interna de la **Distribuidora Mayorista TodoStock S.A.** (Caso 3). Permite administrar proveedores, productos, clientes y ventas con validaciones de integridad referencial entre módulos. Los datos se persisten en archivos JSON y las vistas se renderizan con el motor de plantillas Pug.
 
+La arquitectura aplica **Programación Orientada a Objetos (POO)**: cada módulo define una `class` con constructor, método `validar()` propio y métodos estáticos CRUD. Los controladores solo orquestan el flujo HTTP sin contener lógica de negocio.
+
 ---
 
 ##  Integrantes
 
 | Nombre | Rol |
 |--------|-----|
-| — NyA 1 — | Tech Lead / Módulo Ventas |
-| — NyA 2 — | Módulos Productos y Proveedores |
-| — NyA 3 — | Vistas Pug y pruebas ThunderClient |
-| —   — | Módulo Clientes y archivos JSON |
-| —   — | Documentación y video |
+| — Integrante 1 — | Tech Lead / Módulo Ventas |
+| — Integrante 2 — | Módulos Productos y Proveedores |
+| — Integrante 3 — | Vistas Pug y pruebas ThunderClient |
+| — Integrante 4 — | Módulo Clientes y archivos JSON |
+| — Integrante 5 — | Documentación y video |
 
 ---
 
@@ -38,27 +40,28 @@ API REST para la gestión interna de la **Distribuidora Mayorista TodoStock S.A.
 ##  Estructura del proyecto
 
 ```
-todostock-app/
+g/
 ├── app.js                        ← Punto de entrada
 ├── package.json
 └── src/
     ├── models/
-    │   ├── producto.model.js
-    │   ├── proveedor.model.js
-    │   ├── cliente.model.js
-    │   └── venta.model.js
+    │   ├── producto.model.js     ← class Producto (POO)
+    │   ├── proveedor.model.js    ← class Proveedor (POO)
+    │   ├── cliente.model.js      ← class Cliente (POO)
+    │   └── venta.model.js        ← class Venta (POO)
     ├── controllers/
-    │   ├── producto.controller.js
-    │   ├── proveedor.controller.js
-    │   ├── cliente.controller.js
-    │   └── venta.controller.js
+    │   ├── productos.controller.js
+    │   ├── proveedores.controller.js
+    │   ├── clientes.controller.js
+    │   └── ventas.controller.js
     ├── routes/
     │   ├── productos.routes.js
     │   ├── proveedores.routes.js
     │   ├── clientes.routes.js
     │   └── ventas.routes.js
     ├── middlewares/
-    │   └── logger.middleware.js
+    │   ├── logger.middleware.js           ← registra método, ruta y timestamp
+    │   └── validarProducto.middleware.js  ← valida body antes de crear producto
     ├── views/
     │   ├── index.pug
     │   ├── productos.pug
@@ -80,8 +83,8 @@ todostock-app/
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/— tu usuario —/todostock-app.git
-cd todostock-app
+git clone https://github.com/hugotorrent/todostock-backend-DHL-Solutions.git
+cd todostock-backend-DHL-Solutions
 
 # 2. Instalar dependencias (incluye express, pug y nodemon)
 npm install
@@ -119,7 +122,7 @@ El servidor queda disponible en: `http://localhost:3000`
 | GET | `/api/proveedores/:id` | Obtiene un proveedor por ID |
 | POST | `/api/proveedores` | Crea un nuevo proveedor |
 | PUT | `/api/proveedores/:id` | Actualiza un proveedor |
-| DELETE | `/api/proveedores/:id` | Desactiva un proveedor |
+| DELETE | `/api/proveedores/:id` | Elimina un proveedor |
 
 ### Productos — `/api/productos`
 
@@ -129,7 +132,7 @@ El servidor queda disponible en: `http://localhost:3000`
 | GET | `/api/productos/:id` | Obtiene un producto por ID |
 | POST | `/api/productos` | Crea un producto (requiere proveedorId válido) |
 | PUT | `/api/productos/:id` | Actualiza datos o reasigna proveedor |
-| DELETE | `/api/productos/:id` | Elimina o desactiva el producto |
+| DELETE | `/api/productos/:id` | Elimina el producto si no tiene ventas |
 
 ### Clientes — `/api/clientes`
 
@@ -139,17 +142,14 @@ El servidor queda disponible en: `http://localhost:3000`
 | GET | `/api/clientes/:id` | Obtiene un cliente por ID |
 | POST | `/api/clientes` | Registra un nuevo cliente |
 | PUT | `/api/clientes/:id` | Actualiza datos del cliente |
-| DELETE | `/api/clientes/:id` | Desactiva el cliente |
+| DELETE | `/api/clientes/:id` | Elimina el cliente si no tiene ventas |
 
 ### Ventas — `/api/ventas`
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
-| GET | `/api/ventas` | Lista ventas con cliente y productos |
-| GET | `/api/ventas/:id` | Obtiene una venta por ID |
-| POST | `/api/ventas` | Registra una venta (valida stock) |
-| PUT | `/api/ventas/:id` | Modifica la venta |
-| DELETE | `/api/ventas/:id` | Cancela la venta y repone stock |
+| GET | `/api/ventas` | Lista todas las ventas |
+| POST | `/api/ventas` | Registra una venta (valida cliente y stock) |
 
 ---
 
@@ -159,10 +159,10 @@ El servidor queda disponible en: `http://localhost:3000`
 ```json
 POST /api/proveedores
 {
-  "nombre": "LogiSupply S.R.L.",
-  "contacto": "Juan Pérez",
-  "telefono": "011-4444-5555",
-  "ruc": "20123456789"
+  "nombre": "AgroInsumos del Norte",
+  "contacto": "María Gómez",
+  "telefono": "264-555-1234",
+  "cuit": "30-99887766-1"
 }
 ```
 
@@ -170,10 +170,12 @@ POST /api/proveedores
 ```json
 POST /api/productos
 {
-  "nombre": "Harina 000 x 50kg",
-  "precio": 4500,
-  "stock": 200,
-  "proveedorId": 1
+  "nombre": "Lavandina 1L",
+  "precio": 850,
+  "stock": 100,
+  "stockMinimo": 30,
+  "proveedorId": "prov-001",
+  "proveedorNombre": "Limpio S.A."
 }
 ```
 
@@ -181,11 +183,21 @@ POST /api/productos
 ```json
 POST /api/ventas
 {
-  "clienteId": 1,
-  "productos": [
-    { "productoId": 1, "cantidad": 10 },
+  "clienteId": "cli-001",
+  "items": [
+    { "productoId": 1, "cantidad": 3 },
     { "productoId": 2, "cantidad": 5 }
   ]
+}
+```
+
+**Crear un cliente:**
+```json
+POST /api/clientes
+{
+  "razonSocial": "Almacén Don Roberto",
+  "cuit": "20-33445566-7",
+  "modalidad": "cuenta_corriente"
 }
 ```
 
@@ -193,14 +205,67 @@ POST /api/ventas
 
 ##  Validaciones implementadas
 
-- Campos obligatorios verificados antes de persistir
-- `proveedorId` debe existir y estar activo al crear un producto
-- `clienteId` debe existir y estar activo al registrar una venta
-- Stock verificado antes de confirmar una venta
-- No se puede eliminar un proveedor con productos activos (se desactiva)
-- No se puede eliminar un cliente con ventas registradas (se desactiva)
+Las validaciones viven dentro de cada clase modelo (método `validar()`), no en los controladores:
+
+- **Producto:** nombre, precio ≥ 0, stock ≥ 0 y `proveedorId` obligatorios
+- **Proveedor:** nombre, contacto y teléfono obligatorios; campo `cuit` opcional
+- **Cliente:** razón social y CUIT obligatorios; modalidad debe ser `contado` o `cuenta_corriente`
+- **Venta:** `clienteId` obligatorio, al menos un item, cantidad > 0 por item
+
+Validaciones de integridad referencial (en controladores, al cruzar módulos):
+
+- No se puede eliminar un proveedor que tenga productos asociados → error 409
+- No se puede eliminar un cliente que tenga ventas registradas → error 409
+- No se puede eliminar un producto que figure en ventas → error 409
+- Stock verificado antes de confirmar una venta → error 400 si insuficiente
 - El total de la venta se calcula automáticamente (`precio × cantidad`)
-- Al cancelar una venta se repone el stock de los productos
+
+---
+
+##  Arquitectura POO
+
+Cada módulo implementa una `class` con responsabilidades bien separadas:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  class Producto                                         │
+│                                                         │
+│  constructor()   → define la forma del objeto y el ID  │
+│  validar()       → el objeto se valida a sí mismo      │
+│                                                         │
+│  static getAll()      → lee todos del JSON             │
+│  static getById()     → busca por ID                   │
+│  static crear()       → new Producto() + validar()     │
+│  static actualizar()  → mezcla datos y persiste        │
+│  static eliminar()    → filtra y persiste              │
+└─────────────────────────────────────────────────────────┘
+```
+
+**IDs autoincrementales por módulo:**
+
+| Módulo | Formato | Ejemplo |
+|--------|---------|---------|
+| Proveedor | `prov-XXX` | `prov-001`, `prov-002` |
+| Producto | numérico | `1`, `2`, `3` |
+| Cliente | `cli-XXX` | `cli-001`, `cli-002` |
+| Venta | `vta-XXX` | `vta-001`, `vta-002` |
+
+**Flujo de un POST:**
+```
+Request → Controlador → Modelo.crear(datos)
+                              ↓
+                        new Clase(datos)      ← constructor genera el ID
+                              ↓
+                        instancia.validar()   ← método de instancia
+                              ↓
+                        _guardar(lista)       ← persiste en JSON
+                              ↓
+                        { ok: true, objeto }
+                              ↓
+         Controlador → res.status(201).json(...)
+```
+
+Los controladores **no generan IDs, no arman objetos, no validan campos** — eso es responsabilidad exclusiva de la clase.
 
 ---
 
@@ -208,13 +273,15 @@ POST /api/ventas
 
 **Logger** — registra cada petición HTTP en consola:
 ```
-[2026-04-22T10:35:12.000Z] POST /api/ventas
-[2026-04-22T10:35:20.000Z] GET  /api/productos
+[24/4/2026, 08:44:15] Petición entrante: GET /
+[24/4/2026, 08:44:17] Petición entrante: GET /proveedores
 ```
+
+**validarProducto** — middleware aplicado en la ruta `POST /api/productos` que verifica el body antes de llegar al controlador.
 
 ---
 
-##  Links
+## 🔗 Links
 
--  Carpeta Drive: —  —
+-  Carpeta Drive: —   —
 -  Video explicativo: —  —
