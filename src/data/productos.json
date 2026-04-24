@@ -7,5 +7,23 @@
     "stockMinimo": 20,
     "proveedorId": "prov-001",
     "proveedorNombre": "Limpio S.A."
+  },
+  {
+    "id": 2,
+    "nombre": "Lavandina 1L",
+    "precio": 850,
+    "stock": 100,
+    "stockMinimo": 30,
+    "proveedorId": "prov-001",
+    "proveedorNombre": "Limpio S.A."
+  },
+  {
+    "id": 3,
+    "nombre": "AZUCAR 1kg",
+    "precio": 1850,
+    "stock": 200,
+    "stockMinimo": 50,
+    "proveedorId": "prov-001",
+    "proveedorNombre": "Amplia S.A."
   }
 ]
