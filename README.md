@@ -1,6 +1,6 @@
 # TodoStock S.A. — Sistema de Gestión Mayorista PRUEBA
 
-**DSWB*2#*#################\_1C26**  
+**DSWB_2D_ DHL_Solutions _1C26**  
 Tecnicatura Superior en Desarrollo de Software — IFTS N° 29  
 Materia: Desarrollo Web Backend | Primera Entrega 2026
 
@@ -16,13 +16,13 @@ La arquitectura aplica **Programación Orientada a Objetos (POO)**: cada módulo
 
 ## Integrantes
 
-| Nombre           | Rol                                |
-| ---------------- | ---------------------------------- |
-| — Integrante 1 — | Tech Lead / Módulo Ventas          |
-| — Integrante 2 — | Módulos Productos y Proveedores    |
-| — Integrante 3 — | Vistas Pug y pruebas ThunderClient |
-| — Integrante 4 — | Módulo Clientes y archivos JSON    |
-| — Integrante 5 — | Documentación y video              |
+- Hugo Torrent: Configuración de Express, app.js, middleware logger, clase Venta (POO)
+- Luciano Reguera: Clases Producto y Proveedor (POO), validaciones de integridad
+referencial
+- Diego Gonzalez : Vistas Pug, pruebas con ThunderClient y capturas de evidencia
+- Tareas compartidas: Clase Cliente (POO), archivos JSON de datos, revisión de código
+Documentación, diagramas y grabación del video explicativo
+
 
 ---
 
@@ -40,7 +40,7 @@ La arquitectura aplica **Programación Orientada a Objetos (POO)**: cada módulo
 ## Estructura del proyecto
 
 ```
-g/
+TodoStock S.A. — Sistema de Gestión Mayorista/
 ├── app.js                        ← Punto de entrada
 ├── package.json
 └── src/
@@ -288,5 +288,6 @@ Los controladores **no generan IDs, no arman objetos, no validan campos** — es
 
 ## 🔗 Links
 
-- Carpeta Drive: — —
-- Video explicativo: — —
+- Carpeta Drive: [ DHL Solutions](https://drive.google.com/drive/folders/1azXR5rtAdrlwjlOz13GrjyFCEPugwUSM?usp=sharing)
+- Video explicativo: [ Video Drive](https://drive.google.com/file/d/1DHvIEtnjEHZGo619YjKYV4AErmCvdOPI/view?usp=sharing)
+- Documentacion: [ Primera Parte ](https://drive.google.com/file/d/1aIqgxyGKNZ1PMb6-4kFpxPrFrVRgWP_S/view?usp=sharing)
